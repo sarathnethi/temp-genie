@@ -23,3 +23,12 @@ export const cheers = (name: string): string => {
 export const goodMorning = (name: string): string => {
     return `Good morning, ${name}!`;
 }
+export const goodNight = (name: string): string => {
+    return `Good night, ${name}!`;
+}
+export const haveANiceDay = (name: string): string => {
+    return `Have a nice day, ${name}!`;
+}
+export const seeYouSoon = (name: string): string => {
+    return `See you soon, ${name}!`;
+}
