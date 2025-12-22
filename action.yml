@@ -1,0 +1,24 @@
+name: "Release Genie"
+description: "Analyzes code changes on a release and updates release notes / docs."
+author: "TCOE"
+inputs:
+  github-token:
+    description: "GitHub token with contents:write and pull-requests:write"
+    required: false
+    default: "${{ github.token }}"
+  config-path:
+    description: "Path to Release Genie config file"
+    required: false
+    default: ".release-genie.yml"
+  mode:
+    description: "How to write changes: 'pull-request' or 'commit'"
+    required: false
+    default: "pull-request"
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
+
+branding:
+  icon: "book-open"
+  color: "blue"

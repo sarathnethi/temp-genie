@@ -1,0 +1,38 @@
+name: PR Log
+
+on:
+  pull_request:
+    types: [opened, reopened]   # runs when a PR is opened or reopened
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  log-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (for context; not strictly required)
+        uses: actions/checkout@v4
+
+      - name: Gather PR info
+        id: prinfo
+        run: |
+          echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+          echo "pr_title<<EOF" >> $GITHUB_OUTPUT
+          echo "${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "pr_author=${{ github.event.pull_request.user.login }}" >> $GITHUB_OUTPUT
+          echo "pr_head_ref=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
+          echo "pr_base_ref=${{ github.event.pull_request.base.ref }}" >> $GITHUB_OUTPUT
+          echo "pr_url=${{ github.event.pull_request.html_url }}" >> $GITHUB_OUTPUT
+
+      - name: Log to Actions console
+        run: |
+          echo "=== PR RECEIVED ==="
+          echo "Number : ${{ steps.prinfo.outputs.pr_number }}"
+          echo "Title  : <<<'${{ steps.prinfo.outputs.pr_title }}'>>>"
+          echo "Author : ${{ steps.prinfo.outputs.pr_author }}"
+          echo "Branch : ${{ steps.prinfo.outputs.pr_head_ref }} -> ${{ steps.prinfo.outputs.pr_base_ref }}"
+          echo "URL    : ${{ steps.prinfo.outputs.pr_url }}"
+          echo "Logged at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
