@@ -73,6 +73,13 @@ jobs:
           echo "===== PR CODE CHANGES (TRUNCATED VIEW) ====="
           head -n 200 pr_changes.txt
 
+      - name: Debug PR origin
+        run: |
+          echo "github.repository = ${{ github.repository }}"
+          echo "head repo       = ${{ github.event.pull_request.head.repo.full_name }}"
+          echo "head is fork?    = ${{ github.event.pull_request.head.repo.fork }}"
+
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
