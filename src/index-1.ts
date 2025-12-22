@@ -1,0 +1,1 @@
+// Sample  TypeScript code in src/index-1.ts
