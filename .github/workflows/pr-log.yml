@@ -86,5 +86,5 @@ jobs:
           OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
           OPENAI_API_VERSION: ${{ secrets.OPENAI_API_VERSION }}
           OPENAI_DEPLOYMENT_MODEL: ${{ secrets.OPENAI_DEPLOYMENT_MODEL }}
-        run: node scripts/ai-pr-review.js
+        run: node scripts/ai-pr-review.mjs
 
