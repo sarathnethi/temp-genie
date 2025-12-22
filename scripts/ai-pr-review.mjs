@@ -128,7 +128,7 @@ const prDiffTrimmed =
   prDiff.length > MAX_CHARS ? prDiff.slice(0, MAX_CHARS) + "\n\n[TRUNCATED]" : prDiff;
 
 // ---------- Azure OpenAI client ----------
-const endpoint = mustGetEnv("OPENAI_BASEURL"); // e.g. https://xxxxx.cognitiveservices.azure.com
+const endpoint = mustGetEnv("OPENAI_BASE_URL"); // e.g. https://xxxxx.cognitiveservices.azure.com
 const deployment = mustGetEnv("OPENAI_DEPLOYMENT_MODEL"); // deployment name (NOT model name)
 const apiKey = mustGetEnv("OPENAI_API_KEY");
 const apiVersion = process.env.OPENAI_API_VERSION || "2024-12-01-preview";
