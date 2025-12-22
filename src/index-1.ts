@@ -26,6 +26,3 @@ export const goodMorning = (name: string): string => {
 export const goodNight = (name: string): string => {
     return `Good night, ${name}!`;
 }
-export const haveANiceDay = (name: string): string => {
-    return `Have a nice day, ${name}!`;
-}
