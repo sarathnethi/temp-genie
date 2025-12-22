@@ -2,7 +2,7 @@ name: PR Log
 
 on:
   pull_request:
-    types: [opened, reopened]   # runs when a PR is opened or reopened
+    types: [opened, reopened, synchronize]   # runs when a PR is opened, reopened, or synchronized
 
 permissions:
   contents: read
@@ -36,3 +36,38 @@ jobs:
           echo "Branch : ${{ steps.prinfo.outputs.pr_head_ref }} -> ${{ steps.prinfo.outputs.pr_base_ref }}"
           echo "URL    : ${{ steps.prinfo.outputs.pr_url }}"
           echo "Logged at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+      # ✅ Step 2: Fetch PR code changes (files + diffs)
+      - name: Fetch PR code changes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          PR_NUMBER: ${{ steps.prinfo.outputs.pr_number }}
+        run: |
+          echo "Fetching changed files for PR #$PR_NUMBER"
+
+          page=1
+          per_page=100
+          > pr_changes.txt
+
+          while true; do
+            response=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/$OWNER/$REPO/pulls/$PR_NUMBER/files?per_page=$per_page&page=$page")
+
+            files_count=$(echo "$response" | jq length)
+
+            if [ "$files_count" -eq 0 ]; then
+              break
+            fi
+
+            echo "$response" | jq -r '.[] | 
+              "FILE: \(.filename)\nSTATUS: \(.status)\n---\n\(.patch // "No diff available")\n\n"' \
+              >> pr_changes.txt
+
+            page=$((page + 1))
+          done
+
+          echo "===== PR CODE CHANGES (TRUNCATED VIEW) ====="
+          head -n 200 pr_changes.txt
