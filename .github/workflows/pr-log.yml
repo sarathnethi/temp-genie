@@ -79,6 +79,16 @@ jobs:
           echo "head repo       = ${{ github.event.pull_request.head.repo.full_name }}"
           echo "head is fork?    = ${{ github.event.pull_request.head.repo.fork }}"
 
+      - name: Debug GITHUB_TOKEN permissions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Checking token permissions via API..."
+          curl -s -D - -o /dev/null \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/rate_limit | sed -n 's/^x-oauth-scopes: /Scopes: /p'
+
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
