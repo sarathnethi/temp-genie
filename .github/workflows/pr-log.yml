@@ -7,6 +7,7 @@ on:
 permissions:
   contents: read
   pull-requests: read
+  issues: write
 
 jobs:
   log-pr:
@@ -80,11 +81,21 @@ jobs:
       - name: Install dependencies
         run: npm install openai
 
-      - name: Run AI PR Review
+      - name: Run AI PR Review and comment on PR
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
           OPENAI_API_VERSION: ${{ secrets.OPENAI_API_VERSION }}
           OPENAI_DEPLOYMENT_MODEL: ${{ secrets.OPENAI_DEPLOYMENT_MODEL }}
+
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          PR_NUMBER: ${{ steps.prinfo.outputs.pr_number }}
+          PR_TITLE: ${{ steps.prinfo.outputs.pr_title }}
+          PR_URL: ${{ steps.prinfo.outputs.pr_url }}
+          PR_AUTHOR: ${{ steps.prinfo.outputs.pr_author }}
+          PR_HEAD_REF: ${{ steps.prinfo.outputs.pr_head_ref }}
+          PR_BASE_REF: ${{ steps.prinfo.outputs.pr_base_ref }}
         run: node scripts/ai-pr-review.mjs
 
