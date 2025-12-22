@@ -3,7 +3,7 @@ import OpenAI from "openai";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-  baseURL: `${process.env.OPENAI_BASE_URL}/openai/deployments/${process.env.OPENAI_DEPLOYMENT_MODEL}`,
+  baseURL: process.env.OPENAI_BASE_URL,
   defaultHeaders: {
     "api-key": process.env.OPENAI_API_KEY,
   },
