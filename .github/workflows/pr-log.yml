@@ -71,3 +71,20 @@ jobs:
 
           echo "===== PR CODE CHANGES (TRUNCATED VIEW) ====="
           head -n 200 pr_changes.txt
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install openai
+
+      - name: Run AI PR Review
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+          OPENAI_API_VERSION: ${{ secrets.OPENAI_API_VERSION }}
+          OPENAI_DEPLOYMENT_MODEL: ${{ secrets.OPENAI_DEPLOYMENT_MODEL }}
+        run: node scripts/ai-pr-review.mjs
+
