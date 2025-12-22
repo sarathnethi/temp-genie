@@ -29,6 +29,3 @@ export const goodNight = (name: string): string => {
 export const haveANiceDay = (name: string): string => {
     return `Have a nice day, ${name}!`;
 }
-export const seeYouSoon = (name: string): string => {
-    return `See you soon, ${name}!`;
-}
