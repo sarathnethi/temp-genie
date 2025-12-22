@@ -11,3 +11,6 @@ export const thankYou = (name: string): string => {
 export const welcome = (name: string): string => {
     return `Welcome, ${name}!`;
 }
+export const congrats = (name: string): string => {
+    return `Congratulations, ${name}!`;
+}
