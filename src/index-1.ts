@@ -20,3 +20,6 @@ export const sorry = (name: string): string => {
 export const cheers = (name: string): string => {
     return `Cheers, ${name}!`;
 }
+export const goodMorning = (name: string): string => {
+    return `Good morning, ${name}!`;
+}
